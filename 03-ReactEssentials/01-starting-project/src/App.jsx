@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { CORE_CONCEPTS, EXAMPLES } from "./data.js";
 import Header from "./components/Header/Header.jsx";
-import CoreConcepts from "./components/CoreConcepts.jsx";
+import CoreConcept from "./components/CoreConcept.jsx";
 import TabButton from "./components/TabButton.jsx";
 
 function App() {
@@ -36,7 +36,7 @@ function App() {
         <section id="core-concepts">
           <h2>Core Concepts</h2>
           <ul>
-            <CoreConcepts
+            {/* <CoreConcepts
               title={CORE_CONCEPTS[0].title}
               description={CORE_CONCEPTS[0].description}
               image={CORE_CONCEPTS[0].image}
@@ -49,7 +49,10 @@ function App() {
             />
             <CoreConcepts
               {...CORE_CONCEPTS[3]} // spread operator
-            />
+            /> */}
+            {CORE_CONCEPTS.map((concept) => (
+              <CoreConcept key={concept.title} {...concept} />
+            ))}
           </ul>
         </section>
         <section id="examples">

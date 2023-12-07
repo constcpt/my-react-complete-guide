@@ -1,4 +1,4 @@
-export default function CoreConcepts({ title, description, image }) {
+export default function CoreConcept({ title, description, image }) {
   // object destructuring syntax: these opening and closing curly braces here are used to destructure the first parameter of this function, the props objec in this case.
   return (
     <li>
