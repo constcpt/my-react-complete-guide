@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Player({ initialName, symbol }) {
+export default function Player({ initialName, symbol, isActive }) {
   /* Component Instance Work in Isolation
     If the state in this first player component instance here changes, the second player component instance does not care about that at all. It doesn't even know about that.*/
   const [playerName, setPlayerName] = useState(initialName);
@@ -16,7 +16,7 @@ export default function Player({ initialName, symbol }) {
   }
 
   return (
-    <li>
+    <li className={isActive ? "active" : null}>
       <span className="player">
         {isEditing ? (
           <input
