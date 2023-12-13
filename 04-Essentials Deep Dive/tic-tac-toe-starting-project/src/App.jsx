@@ -25,7 +25,7 @@ function getActivePlayer(turns) {
 
 // get gameboard function
 function getGameBoard(turns) {
-  const gameBoard = initialGameBoard;
+  const gameBoard = initialGameBoard.map((row) => [...row]); // immutability really matters here, we need to keep the original gameBoard unchanged, for reset purpose
   for (const turn of turns) {
     const { square, player } = turn;
     const { row, col } = square;
@@ -78,6 +78,10 @@ function App() {
     });
   }
 
+  function handleReStartClick() {
+    setGameTurns([]);
+  }
+
   return (
     <main>
       <div id="game-container">
@@ -94,7 +98,9 @@ function App() {
             isActive={activePlayer === "O"}
           />
         </ol>
-        {(winner || hasDraw) && <GameOver winner={winner} />}
+        {(winner || hasDraw) && (
+          <GameOver winner={winner} onReStart={handleReStartClick} />
+        )}
         <GameBoard onSelectSquare={handleSelectSquare} board={gameBoard} />
       </div>
       <Log turns={gameTurns} />
