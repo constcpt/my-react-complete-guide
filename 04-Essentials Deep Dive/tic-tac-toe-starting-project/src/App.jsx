@@ -5,6 +5,15 @@ import GameBoard from "./components/Gameboard.jsx";
 import Log from "./components/Log.jsx";
 import { WINNING_COMBINATIONS } from "./winning-combinations.js";
 
+const initialGameBoard = [
+  [null, null, null],
+  [null, null, null],
+  [null, null, null],
+];
+
+let winner;
+
+// get active player function
 function getActivePlayer(turns) {
   let activePlayer = "X";
   if (turns.length > 0 && turns[0].player === "X") {
@@ -13,10 +22,44 @@ function getActivePlayer(turns) {
   return activePlayer;
 }
 
+// get gameboard function
+function getGameBoard(turns) {
+  const gameBoard = initialGameBoard;
+  for (const turn of turns) {
+    const { square, player } = turn;
+    const { row, col } = square;
+    gameBoard[row][col] = player;
+  }
+  return gameBoard;
+}
+
+// check winner function
+function checkWinner(gameBoard) {
+  for (const winCombination of WINNING_COMBINATIONS) {
+    const firstSquareSymbol =
+      gameBoard[winCombination[0].row][winCombination[0].column];
+    const secondSquareSymbol =
+      gameBoard[winCombination[1].row][winCombination[1].column];
+    const thirdSquareSymbol =
+      gameBoard[winCombination[2].row][winCombination[2].column];
+
+    if (
+      firstSquareSymbol &&
+      firstSquareSymbol === secondSquareSymbol &&
+      firstSquareSymbol === thirdSquareSymbol
+    ) {
+      return firstSquareSymbol;
+    }
+  }
+  return null;
+}
+
 function App() {
   const [gameTurns, setGameTurns] = useState([]);
-
+  // const [hasWinner, setHasWinner] = useState(false); // redundant state, we can compute it from gameTurns
   const activePlayer = getActivePlayer(gameTurns);
+  const gameBoard = getGameBoard(gameTurns);
+  winner = checkWinner(gameBoard);
 
   function handleSelectSquare(rowIndex, colIndex) {
     setGameTurns((preTurns) => {
@@ -49,7 +92,8 @@ function App() {
             isActive={activePlayer === "O"}
           />
         </ol>
-        <GameBoard onSelectSquare={handleSelectSquare} turns={gameTurns} />
+        {winner && <p className="winner">{winner} won!</p>}
+        <GameBoard onSelectSquare={handleSelectSquare} board={gameBoard} />
       </div>
       <Log turns={gameTurns} />
     </main>
