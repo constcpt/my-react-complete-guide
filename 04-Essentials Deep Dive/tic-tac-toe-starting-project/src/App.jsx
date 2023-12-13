@@ -4,22 +4,28 @@ import Player from "./components/Player.jsx";
 import GameBoard from "./components/Gameboard.jsx";
 import Log from "./components/Log.jsx";
 
+function getActivePlayer(turns) {
+  let activePlayer = "X";
+  if (turns.length > 0 && turns[0].player === "X") {
+    activePlayer = "O";
+  }
+  return activePlayer;
+}
+
 function App() {
   const [gameTurns, setGameTurns] = useState([]);
-  const [activePlayer, setActivePlayer] = useState("X");
+
+  const activePlayer = getActivePlayer(gameTurns);
 
   function handleSelectSquare(rowIndex, colIndex) {
-    setActivePlayer((activePlayer) => (activePlayer === "X" ? "O" : "X"));
-
     setGameTurns((preTurns) => {
-      let currentPlayer = "X";
-      if (preTurns.length > 0 && preTurns[0].player === "X") {
-        currentPlayer = "O";
-      }
-
+      const currentPlayer = getActivePlayer(preTurns);
       const updatedTurns = [
         // { square: { row: rowIndex, col: colIndex }, player: activePlayer }, // use another state value activePlayer is not optimal, not recommended, we can get the activePlayerSymbol from computing, avoiding uncessary state management
-        { square: { row: rowIndex, col: colIndex }, player: currentPlayer },
+        {
+          square: { row: rowIndex, col: colIndex },
+          player: currentPlayer,
+        },
         ...preTurns,
       ];
       return updatedTurns;
