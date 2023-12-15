@@ -86,6 +86,7 @@ function App() {
 
   function handleReStartClick() {
     setGameTurns([]);
+    setPlayers(PLAYERS);
   }
 
   function handlePlayerNameChange(playerSymbol, newName) {
@@ -100,13 +101,15 @@ function App() {
         <ol id="players" className="highlight-player">
           {/* totally different isolated instances are created which only use the same logic but they then use it on their own. */}
           <Player
-            initialName={PLAYERS.X}
+            key={players.X}
+            initialName={players.X}
             symbol="X"
             isActive={activePlayer === "X"}
             onChangeName={handlePlayerNameChange}
           />
           <Player
-            initialName={PLAYERS.O}
+            key={players.O}
+            initialName={players.O}
             symbol="O"
             isActive={activePlayer === "O"}
             onChangeName={handlePlayerNameChange}
