@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import Player from "./components/Player.jsx";
-import GameBoard from "./components/Gameboard.jsx";
+import GameBoard from "./components/GameBoard.jsx";
 import Log from "./components/Log.jsx";
 import GameOver from "./components/GameOver.jsx";
 import { WINNING_COMBINATIONS } from "./winning-combinations.js";
@@ -56,6 +56,10 @@ function checkWinner(gameBoard) {
 }
 
 function App() {
+  const [players, setPlayers] = useState({
+    X: "Player 1",
+    O: "Player 2",
+  });
   const [gameTurns, setGameTurns] = useState([]);
   // const [hasWinner, setHasWinner] = useState(false); // redundant state, we can compute it from gameTurns
   const activePlayer = getActivePlayer(gameTurns);
@@ -82,6 +86,12 @@ function App() {
     setGameTurns([]);
   }
 
+  function handlePlayerNameChange(playerSymbol, newName) {
+    setPlayers((prevPlayers) => {
+      return { ...prevPlayers, [playerSymbol]: newName }; // [playerSymbol] is Computed propertires, just a normal JS syntax, https://javascript.info/object#computed-properties
+    });
+  }
+
   return (
     <main>
       <div id="game-container">
@@ -91,15 +101,20 @@ function App() {
             initialName="Player 1"
             symbol="X"
             isActive={activePlayer === "X"}
+            onChangeName={handlePlayerNameChange}
           />
           <Player
             initialName="Player 2"
             symbol="O"
             isActive={activePlayer === "O"}
+            onChangeName={handlePlayerNameChange}
           />
         </ol>
         {(winner || hasDraw) && (
-          <GameOver winner={winner} onReStart={handleReStartClick} />
+          <GameOver
+            winner={players[winner]} // square brackets notation provide a way to obtain the value of a variable as the key name of an object, https://javascript.info/object#square-brackets
+            onReStart={handleReStartClick}
+          />
         )}
         <GameBoard onSelectSquare={handleSelectSquare} board={gameBoard} />
       </div>
