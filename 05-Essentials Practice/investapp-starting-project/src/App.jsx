@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import Input from "./components/Input";
 import Result from "./components/Result";
+import UserInput from "./components/UserInput";
 
 const DEFAULT_INPUT_DATA = {
   initialInvestment: 10000,
@@ -13,50 +13,24 @@ const DEFAULT_INPUT_DATA = {
 function App() {
   const [inputData, setInputData] = useState(DEFAULT_INPUT_DATA);
 
-  const inputIsValid = inputData.duration >= 1;
+  const inputIsValid = Object.values(inputData).every((value) => value > 0);
 
   function handleInvestDataChange(inputType, inputValue) {
     setInputData((prevInvestData) => {
-      return { ...prevInvestData, [inputType]: +inputValue };
+      return { ...prevInvestData, [inputType]: +inputValue }; // + converts string to number
     });
   }
 
   return (
     <>
-      <section id="user-input">
-        <div className="input-group">
-          <Input
-            labelName="Initial Investment"
-            inputType="initialInvestment"
-            value={inputData.initialInvestment}
-            onInvestDataChange={handleInvestDataChange}
-          />
-          <Input
-            labelName="Annual Investment"
-            inputType="annualInvestment"
-            value={inputData.annualInvestment}
-            onInvestDataChange={handleInvestDataChange}
-          />
-        </div>
-        <div className="input-group">
-          <Input
-            labelName="Expected Return (%)"
-            inputType="expectedReturn"
-            value={inputData.expectedReturn}
-            onInvestDataChange={handleInvestDataChange}
-          />
-          <Input
-            labelName="Duration (Years)"
-            inputType="duration"
-            value={inputData.duration}
-            onInvestDataChange={handleInvestDataChange}
-          />
-        </div>
-      </section>
+      <UserInput
+        inputData={inputData}
+        onInvestDataChange={handleInvestDataChange}
+      />
       {inputIsValid ? (
-        <Result inputData={inputData}></Result>
+        <Result inputData={inputData} />
       ) : (
-        <p className="center">Please enter a duration greater than zero.</p>
+        <p className="center">Please enter a number greater than zero.</p>
       )}
     </>
   );

@@ -4,15 +4,20 @@ export default function Input({
   value,
   onInvestDataChange,
 }) {
-  function handleChange(event) {
-    // const newValue = parseFloat(event.target.value);
-    onInvestDataChange(inputType, event.target.value);
-  }
+  // function handleChange(event) {
+  //   // const newValue = parseFloat(event.target.value);
+  //   onInvestDataChange(inputType, event.target.value);
+  // }
 
   return (
     <p>
       <label>{labelName}</label>
-      <input type="number" required value={value} onChange={handleChange} />
+      <input
+        type="number"
+        required
+        value={value}
+        onChange={(event) => onInvestDataChange(inputType, event.target.value)}
+      />
     </p>
   );
 }
