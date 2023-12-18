@@ -13,7 +13,7 @@ const DEFAULT_INPUT_DATA = {
 function App() {
   const [inputData, setInputData] = useState(DEFAULT_INPUT_DATA);
 
-  const inputIsValid = Object.values(inputData).every((value) => value > 0);
+  const inputIsValid = Object.values(inputData).every((value) => value > 0); // Objext.values() returns an array of values from the object, and Array method .every() checks if every value in the array passes the test function, if so, returns true, otherwise false
 
   function handleInvestDataChange(inputType, inputValue) {
     setInputData((prevInvestData) => {
